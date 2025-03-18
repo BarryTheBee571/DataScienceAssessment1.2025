@@ -82,10 +82,38 @@ Pokemon data has been given to the user
 ![image](images/Ganttchart.png "Gantt Chart")
 ---
 **Structure Chart**\
-
+![image](images/Untitled-2025-02-25-1459.png "Structure Chart")
 ---
 **Algorithms**\
 
+```
+BEGIN main()
+    USERINPUT pokemonname
+    If APIREQUEST valid
+        THEN 
+            choice=0
+            WHILE choice is not END
+            USERINPUT choice
+            IF choice is ABILITIES THEN
+                DISPLAY ABILITIES
+            ELSEIF choice is SOUND THEN
+                PLAYSOUND
+            ELSEIF choice is FORMS THEN
+                DISPLAY FORMS
+            ELIF choice is MOVES THEN
+                DISPLAY MOVES
+            ELIF choice is TYPES THEN
+                DISPLAY TYPES
+            ELIF choi
+            ELSE
+                DISPLAY 'Problem between chair and keyboard'
+            ENDIF
+            ENDWHILE
+    ELSE 
+        DISPLAY 'Error'
+    ENDIF
+END main()    
+```
 ---
 **Data Dictionary**\
 
