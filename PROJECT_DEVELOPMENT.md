@@ -84,15 +84,14 @@ Pokemon data has been given to the user
 **Structure Chart**\
 ![image](images/Untitled-2025-02-25-1459.png "Structure Chart")
 ---
-**Algorithms**\
-
+**Algorithms**
+- #### **Main Function**
 ```
 BEGIN main()
     USERINPUT pokemonname
-    If APIREQUEST valid
-        THEN 
-            choice=0
-            WHILE choice is not END
+    If APIREQUEST valid THEN 
+        choice=0
+        WHILE choice is not END
             USERINPUT choice
             IF choice is ABILITIES THEN
                 DISPLAY ABILITIES
@@ -100,20 +99,21 @@ BEGIN main()
                 PLAYSOUND
             ELSEIF choice is FORMS THEN
                 DISPLAY FORMS
-            ELIF choice is MOVES THEN
+            ELSEIF choice is MOVES THEN
                 DISPLAY MOVES
-            ELIF choice is TYPES THEN
+            ELSEIF choice is TYPES THEN
                 DISPLAY TYPES
-            ELIF choi
+            ELIF choice is STATS THEN
+                DISPLAY STATS
             ELSE
-                DISPLAY 'Problem between chair and keyboard'
+                DISPLAY 'Choose One Please'
             ENDIF
-            ENDWHILE
     ELSE 
         DISPLAY 'Error'
     ENDIF
 END main()    
 ```
+![image](images/Flowchart.png "Flowchart of Main Function")
 ---
 **Data Dictionary**\
 
