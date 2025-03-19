@@ -1,29 +1,26 @@
 import requests
 
-# API Base URL
-API_URL = "https://pokeapi.co/api/v2/pokemon/"
+base_url="https://pokeapi.co/api/v2/"
 
-# Dictionary to store Pokémon
-dex = {}
-
-def search_pokemon(pokemon_name):
-    """Search for a Pokémon in the PokéAPI and return its details."""
-    response = requests.get(API_URL + pokemon_name.lower())
-    if response.status_code == 200:
-        data = response.json()
-        return {
-            "name": data["name"].capitalize(),
-            "id": data["id"],
-            "type": [t["type"]["name"] for t in data["types"]],
-            "hp": data["stats"][0]["base_stat"]  # HP stat
-        }
+def get_pokemoninfo(name):
+    url = f"{base_url}/pokemon/{name}"
+    response=requests.get(url)
+    if response.status_code ==200:
+        pokemondata =response.json()
+        return pokemondata
     else:
-        print("Pokémon not found.")
-        return None
+        print("Not Found. Check for typos")
 
-def add_pokemon_to_dex(pokemon_name):
-    """Add a Pokémon to the Pokédex if it exists in the API."""
-    pokemon = search_pokemon(pokemon_name)
-    if pokemon:
-        dex[pokemon["name"]] = pokemon
-        print(f"{pokemon['name']} added to your Pokédex!")
+pokemonname= input("What pokemone would you like to learn about? ")
+pokemon_info= get_pokemoninfo(pokemonname)
+
+def pokemonstandard():
+    if pokemon_info:
+        print(f"{pokemon_info['name']}")
+        print(f"{pokemon_info['id']}")
+
+choice = input("What would you like to know about this pokemon?(Types, Stats, Forms, Abilities, Amount of Moves, Sound)")
+
+if choice==str("types"):
+    pokemonstandard
+    print(f"{pokemon_info['type']}")
