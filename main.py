@@ -23,4 +23,4 @@ choice = input("What would you like to know about this pokemon?(Types, Stats, Fo
 
 if choice==str("types"):
     pokemonstandard
-    print(f"{pokemon_info['type']}")
+    print(f"{pokemon_info['types']}")
