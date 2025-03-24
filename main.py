@@ -1,5 +1,11 @@
 import requests
+import pygame
+import time
+import os
+from pathlib import Path
 
+pygame.init()
+pygame.mixer.init()
 base_url="https://pokeapi.co/api/v2/"
 
 def get_pokemoninfo(name):
@@ -11,16 +17,68 @@ def get_pokemoninfo(name):
     else:
         print("Not Found. Check for typos")
 
-pokemonname= input("What pokemone would you like to learn about? ")
+pokemonname= input("What pokemon would you like to learn about? ")
 pokemon_info= get_pokemoninfo(pokemonname)
 
 def pokemonstandard():
     if pokemon_info:
-        print(f"{pokemon_info['name']}")
-        print(f"{pokemon_info['id']}")
+        print("Name: " + pokemon_info['name'].capitalize())
+        print("ID: " + f"{pokemon_info['id']}")
 
-choice = input("What would you like to know about this pokemon?(Types, Stats, Forms, Abilities, Amount of Moves, Sound)")
 
-if choice==str("types"):
-    pokemonstandard
-    print(f"{pokemon_info['types']}")
+def types():
+    for type_info in pokemon_info['types']:
+        print("Type: " + type_info['type']['name'].capitalize())
+
+def abilities():
+    abilities = [a["ability"]["name"].capitalize() for a in pokemon_info["abilities"]]
+    print(f"Abilities: {', '.join(abilities)}")
+
+def stats():
+    stats = {s["stat"]["name"].capitalize(): s["base_stat"] for s in pokemon_info["stats"]}
+    for stat, value in stats.items():
+        print(f"{stat}: {value}")
+def moves():
+    moves_count = len(pokemon_info['moves'])
+    print(f"Number of moves: {moves_count}\n(cannot display each individual move)")
+def sound():
+    pokeID = f"{pokemon_info['id']}"
+    pokesound = f"{str(pokeID).zfill(4)}_{pokemon_info['forms'][0]['name']}.latest"
+    out_file = Path(f"~/Documents/DATASCIENCEASSESSMENT1.2025\sounds\{pokesound.capitalize()}.ogg").expanduser()
+    resp = requests.get(f"https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/{pokeID}.ogg")
+    resp.raise_for_status()
+    with open(out_file, "wb") as fout:
+        fout.write(resp.content)
+    time.sleep(1)
+           
+    file_path = r"c:\Users\yuan.zhuang9\Documents\DATASCIENCEASSESSMENT1.2025\sounds"'\\' + pokesound + ".ogg"
+    pygame.mixer.music.load(str(file_path))
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
+
+choice = input("What would you like to know about this pokemon?(Types, Stats, Abilities, Moves, Sound or Everything): ").lower()
+
+if choice=="types":
+    pokemonstandard()
+    types()
+elif choice=="abilities":
+    pokemonstandard()
+    abilities()
+elif choice=="stats":
+    pokemonstandard()
+    stats()
+elif choice=="moves":
+    pokemonstandard()
+    moves()
+elif choice=="sound":
+    sound()
+elif choice=="everything":
+    pokemonstandard()
+    types()
+    stats()
+    abilities()
+    moves()
+    sound()
+else:
+    print("Please enter a valid option")

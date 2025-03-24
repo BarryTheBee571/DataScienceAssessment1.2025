@@ -97,14 +97,14 @@ BEGIN main()
                 DISPLAY ABILITIES
             ELSEIF choice is SOUND THEN
                 PLAYSOUND
-            ELSEIF choice is FORMS THEN
-                DISPLAY FORMS
             ELSEIF choice is MOVES THEN
                 DISPLAY MOVES
             ELSEIF choice is TYPES THEN
                 DISPLAY TYPES
             ELIF choice is STATS THEN
                 DISPLAY STATS
+            ELIF choice is EVERYTHING THEN
+                Display Everything
             ELSE
                 DISPLAY 'Choose One Please'
             ENDIF
@@ -113,7 +113,7 @@ BEGIN main()
     ENDIF
 END main()    
 ```
-![image](images/Flowchart.png "Flowchart of Main Function")
+![image](images/Flowchart%20(1).png) "Flowchart of Main Function")
 ---
 **Data Dictionary**\
 
