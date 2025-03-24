@@ -4,8 +4,6 @@ import time
 import os
 from pathlib import Path
 
-pygame.init()
-pygame.mixer.init()
 base_url="https://pokeapi.co/api/v2/"
 
 def get_pokemoninfo(name):
@@ -41,6 +39,8 @@ def moves():
     moves_count = len(pokemon_info['moves'])
     print(f"Number of moves: {moves_count}\n(cannot display each individual move)")
 def sound():
+    pygame.init()
+    pygame.mixer.init()
     pokeID = f"{pokemon_info['id']}"
     pokesound = f"{str(pokeID).zfill(4)}_{pokemon_info['forms'][0]['name']}.latest"
     out_file = Path(f"sounds\{pokesound.capitalize()}.ogg").expanduser()
@@ -97,10 +97,10 @@ while True:
         else:
             print("Please enter a valid option")
 
-        learn_more = input("Would you like to learn more? (yes/no): ").lower()
+        learn_more = input("Would you like to learn more about this pokemon? (yes/no): ").lower()
         if learn_more !="yes":
             break
-    same_pokemon=input("Would you like to learn about another pokemon? (yes/no): ").lower()
+    same_pokemon=input("Would you like to learn somehting about another pokemon? (yes/no): ").lower()
     if same_pokemon !="yes":
-        print("Thank you for using this program. Goodbye")
+        print("Thank you for using my program. Farewell")
         break
