@@ -17,8 +17,7 @@ def get_pokemoninfo(name):
     else:
         print("Not Found. Check for typos")
 
-pokemonname= input("What pokemon would you like to learn about? ")
-pokemon_info= get_pokemoninfo(pokemonname)
+
 
 def pokemonstandard():
     if pokemon_info:
@@ -44,41 +43,64 @@ def moves():
 def sound():
     pokeID = f"{pokemon_info['id']}"
     pokesound = f"{str(pokeID).zfill(4)}_{pokemon_info['forms'][0]['name']}.latest"
-    out_file = Path(f"~/Documents/DATASCIENCEASSESSMENT1.2025\sounds\{pokesound.capitalize()}.ogg").expanduser()
+    out_file = Path(f"sounds\{pokesound.capitalize()}.ogg").expanduser()
     resp = requests.get(f"https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/{pokeID}.ogg")
     resp.raise_for_status()
     with open(out_file, "wb") as fout:
         fout.write(resp.content)
     time.sleep(1)
            
-    file_path = r"c:\Users\yuan.zhuang9\Documents\DATASCIENCEASSESSMENT1.2025\sounds"'\\' + pokesound + ".ogg"
+    file_path = r"sounds"'\\' + pokesound + ".ogg"
     pygame.mixer.music.load(str(file_path))
     pygame.mixer.music.play()
     while pygame.mixer.music.get_busy() == True:
         continue
 
-choice = input("What would you like to know about this pokemon?(Types, Stats, Abilities, Moves, Sound or Everything): ").lower()
+    pygame.mixer.music.stop()
+    pygame.mixer.quit()
+    time.sleep(0.5)
 
-if choice=="types":
-    pokemonstandard()
-    types()
-elif choice=="abilities":
-    pokemonstandard()
-    abilities()
-elif choice=="stats":
-    pokemonstandard()
-    stats()
-elif choice=="moves":
-    pokemonstandard()
-    moves()
-elif choice=="sound":
-    sound()
-elif choice=="everything":
-    pokemonstandard()
-    types()
-    stats()
-    abilities()
-    moves()
-    sound()
-else:
-    print("Please enter a valid option")
+    os.remove(out_file)
+
+
+while True:
+    pokemonname= input("What pokemon would you like to learn about? ")
+    pokemon_info= get_pokemoninfo(pokemonname)
+
+    if not pokemon_info:
+        continue
+
+    while True:    
+        choice = input("What would you like to know about this pokemon?(Types, Stats, Abilities, Moves, Sound or Everything): ").lower()
+
+        if choice=="types":
+            pokemonstandard()
+            types()
+        elif choice=="abilities":
+            pokemonstandard()
+            abilities()
+        elif choice=="stats":
+            pokemonstandard()
+            stats()
+        elif choice=="moves":
+            pokemonstandard()
+            moves()
+        elif choice=="sound":
+            sound()
+        elif choice=="everything":
+            pokemonstandard()
+            types()
+            stats()
+            abilities()
+            moves()
+            sound()
+        else:
+            print("Please enter a valid option")
+
+        learn_more = input("Would you like to learn more? (yes/no): ").lower()
+        if learn_more !="yes":
+            break
+    same_pokemon=input("Would you like to learn about another pokemon? (yes/no): ").lower()
+    if same_pokemon !="yes":
+        print("Thank you for using this program. Goodbye")
+        break
