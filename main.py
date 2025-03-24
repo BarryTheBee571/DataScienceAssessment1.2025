@@ -95,7 +95,8 @@ while True:
             sound()
         else:
             print("Please enter a valid option")
-
+            continue
+        
         learn_more = input("Would you like to learn more about this pokemon? (yes/no): ").lower()
         if learn_more !="yes":
             break
