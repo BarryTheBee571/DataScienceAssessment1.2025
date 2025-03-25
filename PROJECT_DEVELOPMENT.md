@@ -113,9 +113,30 @@ BEGIN main()
     ENDIF
 END main()    
 ```
-![image](images/Flowchart%20(1).png) "Flowchart of Main Function")
+![image](images/Flowchart%20(1).png "Flowchart of Main Function")
+---
+- #### **Sub-function (type)**
+```
+BEGIN type()
+    PULL type for pokemon_info
+    DISPLAY type
+END type()
+```
+![image](images/Blank%20diagram%20(1).png "Sub Function (type)")
+---
+- #### **Sub-function (sound)**
+```
+BEGIN sound()
+    PULL sound from pokemon_info
+    DOWNLOAD sound
+    OUTPUT playsound
+    DELETE sound
+END sound()
+```
+![image](images/Blank%20diagram%20(2).png "Sub Function (sound)")
 ---
 **Data Dictionary**\
+asd
 
 ---
 ---

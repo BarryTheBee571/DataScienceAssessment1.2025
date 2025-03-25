@@ -100,7 +100,7 @@ while True:
         learn_more = input("Would you like to learn more about this pokemon? (yes/no): ").lower()
         if learn_more !="yes":
             break
-    same_pokemon=input("Would you like to learn somehting about another pokemon? (yes/no): ").lower()
+    same_pokemon=input("Would you like to learn something about another pokemon? (yes/no): ").lower()
     if same_pokemon !="yes":
         print("Thank you for using my program. Farewell")
         break
