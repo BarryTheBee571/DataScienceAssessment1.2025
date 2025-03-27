@@ -6,38 +6,40 @@ from pathlib import Path
 
 base_url="https://pokeapi.co/api/v2/"
 
-def get_pokemoninfo(name):
+def get_pokemoninfo(name): #this function sends an API request to see if the informaiton is available
     url = f"{base_url}/pokemon/{name}"
     response=requests.get(url)
     if response.status_code ==200:
         pokemondata =response.json()
         return pokemondata
     else:
-        print("Not Found. Check for typos")
+        print("Not Found. Check for typos") 
 
 
-def pokemonstandard():
+def pokemonstandard(): #this gets the name and ID of the pokemon so it can be displayed later
     if pokemon_info:
         print("Name: " + pokemon_info['name'].capitalize())
         print("ID: " + f"{pokemon_info['id']}")
 
 
-def types():
+def types(): #this gets the type/s of the pokemon from the api
     for type_info in pokemon_info['types']:
         print("Type: " + type_info['type']['name'].capitalize())
 
-def abilities():
+def abilities(): #this gets the abilities of the pokemon from the api
     abilities = [a["ability"]["name"].capitalize() for a in pokemon_info["abilities"]]
     print(f"Abilities: {', '.join(abilities)}")
 
-def stats():
+def stats(): #this funciton displays all the stats that the pokemon has such as HP
     stats = {s["stat"]["name"].capitalize(): s["base_stat"] for s in pokemon_info["stats"]}
     for stat, value in stats.items():
         print(f"{stat}: {value}")
-def moves():
+
+def moves(): #this function displays the amount of moves that a pokemon has access to
     moves_count = len(pokemon_info['moves'])
     print(f"Number of moves: {moves_count}\n(cannot display each individual move)")
-def sound():
+
+def sound(): #this function pulls the sound file from the API, downloads it into a special folder, plays the sound and then wipes the sound of the folder
     pygame.init()
     pygame.mixer.init()
     pokeID = f"{pokemon_info['id']}"
@@ -62,7 +64,7 @@ def sound():
     os.remove(out_file)
 
 
-while True:
+while True: #this is the main function and where all the user inputs start
     pokemonname= input("What pokemon would you like to learn about? ")
     pokemon_info= get_pokemoninfo(pokemonname)
 
@@ -70,7 +72,7 @@ while True:
         continue
 
     while True:    
-        choice = input("What would you like to know about this pokemon?(Types, Stats, Abilities, Moves, Sound or Everything): ").lower()
+        choice = input("What would you like to know about this pokemon?(Types, Stats, Abilities, Moves, Sound or Everything): ").lower() #this gives them the option to see everything or just a specific thing
 
         if choice=="types":
             pokemonstandard()
@@ -94,13 +96,13 @@ while True:
             moves()
             sound()
         else:
-            print("Please enter a valid option")
+            print("Please enter a valid option") #failsafe for if they enter something that isn't accepted
             continue
         
-        learn_more = input("Would you like to learn more about this pokemon? (yes/no): ").lower()
+        learn_more = input("Would you like to learn more about this pokemon? (yes/no): ").lower() #allows them to get another piece of information about the same pokemon
         if learn_more !="yes":
             break
-    same_pokemon=input("Would you like to learn something about another pokemon? (yes/no): ").lower()
+    same_pokemon=input("Would you like to learn something about another pokemon? (yes/no): ").lower() #allows to either exit the program or restart this whole loop for a new pokemon
     if same_pokemon !="yes":
         print("Thank you for using my program. Farewell")
         break
