@@ -136,7 +136,15 @@ END sound()
 ![image](images/Blank%20diagram%20(2).png "Sub Function (sound)")
 ---
 **Data Dictionary**\
-asd
+| Variable | Data Type | Format for Display | Size in Bytes | Size for Display | Description  | Example | Validation |
+| :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| name | String | Text | 50 | 50 | The name of the pokemon | Glaceon | Must be valid |
+| ID | Integer | Whole Number | 4 | 4 | The ID number of the pokemon | 471 | Must be positive |
+| type | String | Text | 50 | 50 | The type/s of the pokemon  | Ice | Must be the type of the pokemon |
+| abilities | String | Text | 100 | 100 | The abilities that the pokemon has | Snow Cloak | Must be a ability of the pokemon |
+| stats | Integer | Whole Number | 4 | 4 | The stats of the pokemon | HP: 65 | Must be valid stats for pokemon |
+| moves | Integer | Whole Number | 4 | 4 | The amount of moves that the pokemon has access to | 87 | Must be valid moves from game |
+| sound | .Wav | n/a | 24400 | n/a | The sound that the pokemon made in the games | “Pika pika”- Pikachu | Must be the sound the pokemon made |
 
 ---
 ---
@@ -254,8 +262,10 @@ while True:
 ## <ins> **Maintenance** <ins>
 **Maintenance Questions**\
 
+
 ---
 **Final Evaluation**\
+
 
 ---
 ---

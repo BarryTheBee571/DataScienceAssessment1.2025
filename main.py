@@ -39,7 +39,7 @@ def moves(): #this function displays the amount of moves that a pokemon has acce
     moves_count = len(pokemon_info['moves'])
     print(f"Number of moves: {moves_count}\n(cannot display each individual move)")
 
-def sound(): #this function pulls the sound file from the API, downloads it into a special folder, plays the sound and then wipes the sound of the folder
+def sound(): #this function pulls the sound file from the API, downloads it into a special folder, plays the sound and then wipes the sound off the folder
     pygame.init()
     pygame.mixer.init()
     pokeID = f"{pokemon_info['id']}"
