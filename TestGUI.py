@@ -7,6 +7,7 @@ import pygame
 import time
 import os
 from pathlib import Path
+import random
 
 base_url = "https://pokeapi.co/api/v2/pokemon/"
 
@@ -88,10 +89,16 @@ def play_sound():
 
     os.remove(out_file)
 
+def random_button():
+    random_number = random.randint(1, 1032)
+    label_name = random_number
+    fetch_pokemon()
+    
+
 # Create the GUI
 root = tk.Tk()
 root.title("Pokédex")
-root.geometry("400x500")
+root.geometry("350x450")
 
 Label(root, text="Enter Pokémon Name:").pack()
 entry = Entry(root)
@@ -99,6 +106,7 @@ entry.pack()
 entry.bind("<Return>", lambda event: fetch_pokemon())
 btn_fetch = Button(root, text="Search", command=fetch_pokemon)
 btn_fetch.pack()
+btn_
 
 label_image = Label(root)
 label_image.pack()
