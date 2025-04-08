@@ -10,7 +10,7 @@ Users will need to download the needed files, data and api in order to use and v
 User is required to have a keyboard and mouse in order to interact with the system and having the necessary navigational functions.
 
 **Data Display**\
-The user will need to be able to obtain the name of the pokemon, their moves, abilities, type, sound, any alternative forms, and their statistics. 
+The user will need to be able to obtain the name of the pokemon, their moves, abilities, type, sound, their statistics, and a picture of the pokemon
 
 ---
 ### <ins>**Non- Functional Requirements**<ins>
@@ -21,7 +21,7 @@ The system needs to perform reasonably well, therefore not requiring much power 
 The system will have to be able to provide the necessary and reliable information/data to the user. If the user searches for a pokemon that doesn't exist or have made a typo, the system should return in an error letting them know.
 
 **Usability and Accessibility**\
-The system's navigational system should be easy to access and understand. The main function will be a search system which will go find the needed pokemon and the relative information regarding that pokemon, then returning it to the user, allowing them to view it and gaining the information they were wanting.
+The system's navigational system should be easy to access and understand. The main function will be a search system which will go find the needed pokemon and the relative information regarding that pokemon, then returning it to the user, allowing them to view it.
 
 ---
 ---
@@ -32,13 +32,13 @@ The system's navigational system should be easy to access and understand. The ma
 The system should allow the user to search for the pokemon they want and then return the necessary informaiton related to that pokemon. For example if someone searches for Charizard, it will give you the type, move set and other informaiton
 
 **Inputs and Outputs**\
-The system will need to accept text as the input and then find them in the data set to then return all the necessary information regarding that pokemon in a text based format.
+The system will need to accept text or integer (pokemon ID number) as the input and then find them in the data set to then return all the necessary information regarding that pokemon in a GUI which allows it to be visually appealing
 
 **Core Features**\
-The core features of this program is to search and find information relating to the pokemon that the user has requested and then display that information so that they can view it and gain the knowledge.
+The core features of this program is to search and find information relating to the pokemon that the user has requested and then display that information so that they can view it
 
 **User Interaction**\
-The users will interact with the system through a text based user interface, which allows them to view the needed information that has been provided by the program relating to whatever they searched.
+The users will interact with the system through a GUI, which allows them to view the needed information that has been provided by the program relating to whatever they searched.
 
 **Error Handling**\
 The system will need to be able to return an error in case the user enters a pokemon that doesn't exist or if they make a typo. 
@@ -49,10 +49,10 @@ The system will need to be able to return an error in case the user enters a pok
 The program shouldn't take longer than a few seconds to return the necessary information that has been requested by the user regarding the pokemon, a good UI will also be needed to ensure that the program runs as efficient as possible instead of hiding the search things under other processes.
 
 **Usability/Accessibility**\
-The user interface will be qutie simple, it will just ask them what pokemon they want to learn about and then what information they would want to know about that pokemon (type, stats, etc). It will just be a simple search that requires you to type 2 things and then when you have recieved the information, give another prompt asking if you're done with the program or want to search for another pokemon or more information on the previous creature.
+The user interface is incredibly simple, it gives the user a few buttons and a search bar. The search bar can be used to enter the pokemon's name or ID and then you can search with efficiency. If you want to hear the sound that the pokemon makes, there's the play sound button. Lastly for some fun, there's the random button which generates a random integer between 1-1025 (the number of pokemon there are) and enters it directly into the search bar effectively giving you everything on a random pokemon.
 
 **Reliability**\
-An issue that might cause a problem to the program will be typos, or a pokemon that doesn't exist. In this case it will simply return an error message stating that the pokemon doesn't exist
+An issue that might cause a problem to the program will be typos, or a pokemon that doesn't exist. In this case it will simply return an error message stating that the pokemon doesn't exist. Another issue is that it might slow down and lag significantly if the buttons are spammed too many times.
 
 ---
 ---
@@ -64,13 +64,10 @@ User(Someone that likes Pokemon)
 Access to the internet and the API (PokeApi)
 
 **Main Flow**
-1. User will get prompted to enter the name of the porkemon they want to search, system will retrieve the data and filter it to that specific pokemon
-2. User will get another prompt asking what they want to know about that pokemon, system will retrieve this data and display it
-3. User will get one final prompt asking \
-a) If they want to look for another pokemon\
-b) Want more information on the previous pokemon\
-c) End task\
-If a) system will return to step 1. If b) system will return to step 2. If c) system will end
+User enters this loop until they exit the program
+1. Search for a pokemon
+2. Get a random pokemon
+3. play the sound of the current pokemon (only works if there is a current pokemon)
 
 **Postconditions**\
 Pokemon data has been given to the user
@@ -88,45 +85,50 @@ Pokemon data has been given to the user
 - #### **Main Function**
 ```
 BEGIN main()
-    USERINPUT pokemonname
-    If APIREQUEST valid THEN 
-        choice=0
-        WHILE choice is not END
-            USERINPUT choice
-            IF choice is ABILITIES THEN
-                DISPLAY ABILITIES
-            ELSEIF choice is SOUND THEN
-                PLAYSOUND
-            ELSEIF choice is MOVES THEN
-                DISPLAY MOVES
-            ELSEIF choice is TYPES THEN
-                DISPLAY TYPES
-            ELIF choice is STATS THEN
-                DISPLAY STATS
-            ELIF choice is EVERYTHING THEN
-                Display Everything
+    WHILE not END
+        IF choice= searchpokemon
+            USERINPUT pokemon_name
+            DISPLAY pokemon_data
+        ELIF choice= randompokemon
+            RANDINT= (1,1025)
+            pokemon_name= RANDINT
+            fetch_pokemon(pokemon_name)
+        ELIF choice= PLAYSOUND
+            IF current_pokemon
+                Play sound
             ELSE
-                DISPLAY 'Choose One Please'
-            ENDIF
-    ELSE 
-        DISPLAY 'Error'
-    ENDIF
-END main()    
+                error
+        ELSE choice= END
+    ENDWHILE
+END main()
 ```
 ![image](theory_images/Flowchart%20(1).png "Flowchart of Main Function")
+
 ---
 - #### **Sub-function (Display Pokemon)**
 ```
-
+BEGIN display_pokemon()
+    USERINPUT pokemon_name
+    fetch_pokemon(pokemon_name)
+END display_pokemon
 ```
-![image](theory_images/Blank%20diagram%20(3).png "Sub Function (type)")
+<img src="theory_images/Blank%20diagram%20(3).png" alt= "random pokemon" width = "150"/>
+
 ---
+
 - #### **Sub-function (random pokemon)**
 ```
-
+BEGIN random_pokemon
+    RANDINT= (1,1025)
+    pokemon_name=RANDINT
+    fetch_pokemon(pokemon_name)
+    display_pokemon
+END rnadom_pokemon
 ```
-![image](theory_images/Blank%20diagram%20(4).png "Sub Function (random pokemon)")
+<img src="theory_images/Blank%20diagram%20(4).png" alt= "random pokemon" width = "150"/>
+
 ---
+
 **Data Dictionary**
 
 | Variable | Data Type | Format for Display | Size in Bytes | Size for Display | Description  | Example | Validation |
@@ -138,7 +140,7 @@ END main()
 | stats | Integer | Whole Number | 4 | 4 | The stats of the pokemon | HP: 65 | Must be valid base stats for pokemon |
 | moves | Integer | Whole Number | 4 | 4 | The amount of moves that the pokemon has access to | 87 | Must be valid moves from game |
 | sound | .Wav | n/a | 24400 | n/a | The sound that the pokemon made in the games | n/a | Must be the sound the pokemon made |
-| image |  | Image | 92000 | 92000 | The image of a pokemon | ![image](theory_images/471.png "Glaceon") | Must be the official artwork of the pokemon |
+| image |  | Image | 92000 | 92000 | The image of a pokemon | <img src="theory_images/471.png" alt= "Glaceon" width = "100"/>| Must be the official artwork of the pokemon |
 
 ---
 ---
@@ -307,9 +309,23 @@ root.mainloop()
 ```
 ---
 ---
-## <ins> **Maintenance** <ins>
+## <ins> **Testing and Debugging** <ins>
+**Ongoing Evaluations
+
+
+---
+### <ins> **Maintenance** <ins>
 **Maintenance Questions**\
 
+
+
+---
+### **Peer Evaluation**\
+Stephen Wirianata:  
+Barry GUI work perfectlly with its goal to help users find dat on their pokemon. His GUI provides various features (ncluding the random button) and the PLAY SOUND button. he could add an exit button to exit the program instead of exiting the way of the exit old ways.
+
+Chris Wong:  
+Barrys GUI provides multiple features that allows users to improve their knowledge on pokemon. It provides a really nice looking picture and looks a really good and doesnt look pixalated. 
 
 ---
 **Final Evaluation**\

@@ -1,4 +1,3 @@
-copy each of these individually into the terminal
-pip install requests
-pip install pillow
-pip install pygame
+requests
+pillow
+pygame
