@@ -95,7 +95,7 @@ def play_sound():
         label_name.config(text="Please search for a pokemon")
         return
     
-    poke_id = pokemon_info.get("id")  # Get Pokémon ID
+    poke_id = pokemon_info.get("id")  # Get Pokemon ID
     
     # URL of sound file
     sound_url = f"https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/{poke_id}.ogg"
@@ -118,12 +118,11 @@ def play_sound():
 # Pick a random Pokemon and fetch its data
 def random_button():
     random_number = random.randint(1, 1025)  # Generate random ID
-    label_name.config(text=f"Random ID: {random_number}")  # Show ID
     entry.delete(0, tk.END)  # Clear text box
     entry.insert(0, str(random_number))  # Replaces with new ID
     fetch_pokemon()  # Fetch random Pokémon
 
-# Create label and entry box for Pokémon input
+# Create label and entry box for Pokemon input
 Label(root, text="Enter Pokemon Name:").pack()
 entry = Entry(root)
 entry.pack()
