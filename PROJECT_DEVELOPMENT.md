@@ -79,10 +79,10 @@ Pokemon data has been given to the user
 ---
 ## <ins> **Design**
 **Gantt Chart**\
-![image](images/Ganttchart.png "Gantt Chart")
+![image](theory_images/Ganttchart.png "Gantt Chart")
 ---
 **Structure Chart**\
-![image](images/Untitled-2025-02-25-1459.png "Structure Chart")
+![image](theory_images/Structure%20Chart.png "Structure Chart")
 ---
 **Algorithms**
 - #### **Main Function**
@@ -113,149 +113,197 @@ BEGIN main()
     ENDIF
 END main()    
 ```
-![image](images/Flowchart%20(1).png "Flowchart of Main Function")
+![image](theory_images/Flowchart%20(1).png "Flowchart of Main Function")
 ---
-- #### **Sub-function (type)**
+- #### **Sub-function (Display Pokemon)**
 ```
-BEGIN type()
-    PULL type for pokemon_info
-    DISPLAY type
-END type()
+
 ```
-![image](images/Blank%20diagram%20(1).png "Sub Function (type)")
+![image](theory_images/Blank%20diagram%20(3).png "Sub Function (type)")
 ---
-- #### **Sub-function (sound)**
+- #### **Sub-function (random pokemon)**
 ```
-BEGIN sound()
-    PULL sound from pokemon_info
-    DOWNLOAD sound
-    OUTPUT playsound
-    DELETE sound
-END sound()
+
 ```
-![image](images/Blank%20diagram%20(2).png "Sub Function (sound)")
+![image](theory_images/Blank%20diagram%20(4).png "Sub Function (random pokemon)")
 ---
-**Data Dictionary**\
+**Data Dictionary**
+
 | Variable | Data Type | Format for Display | Size in Bytes | Size for Display | Description  | Example | Validation |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
 | name | String | Text | 50 | 50 | The name of the pokemon | Glaceon | Must be valid |
 | ID | Integer | Whole Number | 4 | 4 | The ID number of the pokemon | 471 | Must be positive |
 | type | String | Text | 50 | 50 | The type/s of the pokemon  | Ice | Must be the type of the pokemon |
 | abilities | String | Text | 100 | 100 | The abilities that the pokemon has | Snow Cloak | Must be a ability of the pokemon |
-| stats | Integer | Whole Number | 4 | 4 | The stats of the pokemon | HP: 65 | Must be valid stats for pokemon |
+| stats | Integer | Whole Number | 4 | 4 | The stats of the pokemon | HP: 65 | Must be valid base stats for pokemon |
 | moves | Integer | Whole Number | 4 | 4 | The amount of moves that the pokemon has access to | 87 | Must be valid moves from game |
-| sound | .Wav | n/a | 24400 | n/a | The sound that the pokemon made in the games | “Pika pika”- Pikachu | Must be the sound the pokemon made |
+| sound | .Wav | n/a | 24400 | n/a | The sound that the pokemon made in the games | n/a | Must be the sound the pokemon made |
+| image |  | Image | 92000 | 92000 | The image of a pokemon | ![image](theory_images/471.png "Glaceon") | Must be the official artwork of the pokemon |
 
 ---
 ---
 ## <ins> **Development** <ins>
 ```
-import requests
-import pygame
-import time
-import os
-from pathlib import Path
+# Import necessary modules
+import requests  # For making HTTP requests to the Pokémon API
+import tkinter as tk  # For making the GUI
+from tkinter import Label, Entry, Button  # Specific functions from tkinter
+from PIL import Image, ImageTk  # For displaying images
+from io import BytesIO  # For handling image data
+import pygame  # For playing Pokemon sound files
+import time  # For adding delays
+import os  # For file operations
+from pathlib import Path  # For better file path handling
+import random  # For generating random numbers
 
-base_url="https://pokeapi.co/api/v2/"
+# Create the main Tkinter window
+root = tk.Tk()
+root.title("Pokedex")  # Set window title
+root.iconbitmap("other/pngegg.ico")  # Set window icon
+root.geometry("280x460")  # Set window size
 
-def get_pokemoninfo(name):
-    url = f"{base_url}/pokemon/{name}"
-    response=requests.get(url)
-    if response.status_code ==200:
-        pokemondata =response.json()
-        return pokemondata
+# Load and prepare the default image to show at startup
+default_image_path = Path("other/filler_image.png")
+default_image = Image.open(default_image_path)
+default_image = default_image.resize((250, 92))  # Resize the image
+default_photo = ImageTk.PhotoImage(default_image)  # Convert image to Tkinter format
+
+# Display the default image in a Label widget
+label_image = Label(root, image=default_photo)
+label_image.image = default_photo  # Keep a reference to prevent garbage collection
+label_image.pack()  # Add to window
+
+# Display the default image again (used when no Pokémon is found or on start)
+def display_default_image():
+    label_image.config(image=default_photo)
+    label_image.image = default_photo
+
+# Fetch data about a Pokemon from the API
+def fetch_pokemon():
+    name = entry.get().lower().strip()  # Get user input
+    if not name:
+        label_name.config(text="Please enter a Pokémon name!")
+        display_default_image()
+        return None
+
+    url = f"https://pokeapi.co/api/v2/pokemon/{name}"  # API link
+    response = requests.get(url)  # Send request to API
+    if response.status_code == 200:
+        pokemon_data = response.json()  # Converts JSON to pyhton
+        display_pokemon(pokemon_data)  # Show Pokemon data
+        return pokemon_data
     else:
-        print("Not Found. Check for typos")
+        # Reset labels and show error if Pokemon not found
+        label_name.config(text="Pokemon not found")
+        label_id.config(text="")
+        label_types.config(text="")
+        label_abilities.config(text="")
+        label_stats.config(text="")
+        display_default_image()
+        return None
 
+# Display Pokemon image and info on the GUI
+def display_pokemon(data):
+    label_name.config(text=f"Name: {data['name'].capitalize()}")  # Show name
+    label_id.config(text=f"ID: {data['id']}")  # Show ID
+    
+    # Show types
+    types = ", ".join(t["type"]["name"].capitalize() for t in data["types"])
+    label_types.config(text=f"Type: {types}")
+    
+    # Show abilities
+    abilities = ", ".join(a["ability"]["name"].capitalize() for a in data["abilities"])
+    label_abilities.config(text=f"Abilities: {abilities}")
+    
+    # Show base stats
+    stats = "\n".join(f"{s['stat']['name'].capitalize()}: {s['base_stat']}" for s in data["stats"])
+    label_stats.config(text=f"Stats:\n{stats}")
+    
+    # Download and show Pokemon image
+    image_url = data["sprites"]["other"]["official-artwork"]["front_default"]
+    if image_url:
+        img_data = requests.get(image_url).content
+        img = Image.open(BytesIO(img_data))
+        img = img.resize((150, 150))
+        img = ImageTk.PhotoImage(img)
+        label_image.config(image=img)
+        label_image.image = img
 
-def pokemonstandard():
-    if pokemon_info:
-        print("Name: " + pokemon_info['name'].capitalize())
-        print("ID: " + f"{pokemon_info['id']}")
-
-
-def types():
-    for type_info in pokemon_info['types']:
-        print("Type: " + type_info['type']['name'].capitalize())
-
-def abilities():
-    abilities = [a["ability"]["name"].capitalize() for a in pokemon_info["abilities"]]
-    print(f"Abilities: {', '.join(abilities)}")
-
-def stats():
-    stats = {s["stat"]["name"].capitalize(): s["base_stat"] for s in pokemon_info["stats"]}
-    for stat, value in stats.items():
-        print(f"{stat}: {value}")
-def moves():
-    moves_count = len(pokemon_info['moves'])
-    print(f"Number of moves: {moves_count}\n(cannot display each individual move)")
-def sound():
-    pygame.init()
-    pygame.mixer.init()
-    pokeID = f"{pokemon_info['id']}"
-    pokesound = f"{str(pokeID).zfill(4)}_{pokemon_info['forms'][0]['name']}.latest"
-    out_file = Path(f"sounds\{pokesound.capitalize()}.ogg").expanduser()
-    resp = requests.get(f"https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/{pokeID}.ogg")
-    resp.raise_for_status()
-    with open(out_file, "wb") as fout:
-        fout.write(resp.content)
-    time.sleep(1)
-           
-    file_path = r"sounds"'\\' + pokesound + ".ogg"
-    pygame.mixer.music.load(str(file_path))
-    pygame.mixer.music.play()
-    while pygame.mixer.music.get_busy() == True:
-        continue
-
-    pygame.mixer.music.stop()
-    pygame.mixer.quit()
-    time.sleep(0.5)
-
-    os.remove(out_file)
-
-
-while True:
-    pokemonname= input("What pokemon would you like to learn about? ")
-    pokemon_info= get_pokemoninfo(pokemonname)
-
+# Play Pokemon sound
+def play_sound():
+    pygame.init()  # Initialise pygame
+    pygame.mixer.init()  # Initialise sound mixer
+    
+    name = entry.get().lower().strip()
+    pokemon_info = fetch_pokemon()  # Get Pokemon info
+    
     if not pokemon_info:
-        continue
+        label_name.config(text="Please search for a pokemon")
+        return
+    
+    poke_id = pokemon_info.get("id")  # Get Pokemon ID
+    
+    # URL of sound file
+    sound_url = f"https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/{poke_id}.ogg"
+    out_file = Path(f"other/{name.capitalize()}.ogg").expanduser()  # Path to save sound locally
+    
+    sound_data = requests.get(sound_url).content  # Download sound
+    with open(out_file, "wb") as file:
+        file.write(sound_data)  # Save sound file
+    
+    pygame.mixer.music.load(out_file)  # Load sound
+    pygame.mixer.music.play()  # Play sound
+    while pygame.mixer.music.get_busy():
+        continue  # Wait until sound finishes
+    
+    pygame.mixer.music.stop()  # Stop sound
+    pygame.mixer.quit()  # Cleanup
+    time.sleep(0.5)  # Small delay
+    os.remove(out_file)  # Delete the sound file
 
-    while True:    
-        choice = input("What would you like to know about this pokemon?(Types, Stats, Abilities, Moves, Sound or Everything): ").lower()
+# Pick a random Pokemon and fetch its data
+def random_button():
+    random_number = random.randint(1, 1025)  # Generate random ID
+    entry.delete(0, tk.END)  # Clear text box
+    entry.insert(0, str(random_number))  # Replaces with new ID
+    fetch_pokemon()  # Fetch random Pokémon
 
-        if choice=="types":
-            pokemonstandard()
-            types()
-        elif choice=="abilities":
-            pokemonstandard()
-            abilities()
-        elif choice=="stats":
-            pokemonstandard()
-            stats()
-        elif choice=="moves":
-            pokemonstandard()
-            moves()
-        elif choice=="sound":
-            sound()
-        elif choice=="everything":
-            pokemonstandard()
-            types()
-            stats()
-            abilities()
-            moves()
-            sound()
-        else:
-            print("Please enter a valid option")
-            continue
-        
-        learn_more = input("Would you like to learn more about this pokemon? (yes/no): ").lower()
-        if learn_more !="yes":
-            break
-    same_pokemon=input("Would you like to learn something about another pokemon? (yes/no): ").lower()
-    if same_pokemon !="yes":
-        print("Thank you for using my program. Farewell")
-        break
+# Create label and entry box for Pokemon input
+Label(root, text="Enter Pokemon Name:").pack()
+entry = Entry(root)
+entry.pack()
+entry.bind("<Return>", lambda event: fetch_pokemon())  # Fetch on Enter key
+
+# Create button frame
+frame_buttons = tk.Frame(root)
+frame_buttons.pack()
+
+# Search button
+btn_fetch = Button(frame_buttons, text="Search", command=fetch_pokemon)
+btn_fetch.grid(row=0, column=0, padx=5, pady=5)
+
+# Random button
+btn_random = Button(frame_buttons, text="Random", command=random_button)
+btn_random.grid(row=0, column=1, padx=5, pady=5)
+
+# Play sound button
+btn_sound = Button(root, text="Play Sound", command=play_sound)
+btn_sound.pack()
+
+# Labels to display Pokémon data
+label_name = Label(root, text="")
+label_name.pack()
+label_id = Label(root, text="")
+label_id.pack()
+label_types = Label(root, text="")
+label_types.pack()
+label_abilities = Label(root, text="")
+label_abilities.pack()
+label_stats = Label(root, text="")
+label_stats.pack()
+
+# Start the GUI application
+root.mainloop()
 ```
 ---
 ---

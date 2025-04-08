@@ -1,5 +1,5 @@
 # Import necessary modules
-import requests  # For making HTTP requests to the Pokémon API
+import requests  # For making HTTP requests to the Pokemon API
 import tkinter as tk  # For making the GUI
 from tkinter import Label, Entry, Button  # Specific functions from tkinter
 from PIL import Image, ImageTk  # For displaying images
@@ -27,7 +27,7 @@ label_image = Label(root, image=default_photo)
 label_image.image = default_photo  # Keep a reference to prevent garbage collection
 label_image.pack()  # Add to window
 
-# Display the default image again (used when no Pokémon is found or on start)
+# Display the default image again (used when no Pokemon is found or on start)
 def display_default_image():
     label_image.config(image=default_photo)
     label_image.image = default_photo
@@ -36,7 +36,7 @@ def display_default_image():
 def fetch_pokemon():
     name = entry.get().lower().strip()  # Get user input
     if not name:
-        label_name.config(text="Please enter a Pokémon name!")
+        label_name.config(text="Please enter a Pokemon name!")
         display_default_image()
         return None
 
@@ -120,7 +120,7 @@ def random_button():
     random_number = random.randint(1, 1025)  # Generate random ID
     entry.delete(0, tk.END)  # Clear text box
     entry.insert(0, str(random_number))  # Replaces with new ID
-    fetch_pokemon()  # Fetch random Pokémon
+    fetch_pokemon()  # Fetch random Pokemon
 
 # Create label and entry box for Pokemon input
 Label(root, text="Enter Pokemon Name:").pack()
@@ -144,7 +144,7 @@ btn_random.grid(row=0, column=1, padx=5, pady=5)
 btn_sound = Button(root, text="Play Sound", command=play_sound)
 btn_sound.pack()
 
-# Labels to display Pokémon data
+# Labels to display Pokemon data
 label_name = Label(root, text="")
 label_name.pack()
 label_id = Label(root, text="")

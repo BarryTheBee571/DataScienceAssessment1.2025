@@ -1,4 +1,4 @@
-You will need to install requests if not already done so
-to do this, go into the terminal and enter "pip install requests"
-you will also need to install pygame by entering "pip install pygame"
-as well as "pip install pathlib"
+copy each of these individually into the terminal
+pip install requests
+pip install pillow
+pip install pygame
