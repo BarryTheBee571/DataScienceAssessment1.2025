@@ -16,5 +16,5 @@ To run this program, you need to install the following dependencies:
 ### Install dependencies
 To install the required dependencies, you can run:
 
-```bash
+
 pip install -r Requirements.txt
