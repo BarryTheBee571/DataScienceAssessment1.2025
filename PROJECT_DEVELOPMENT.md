@@ -347,7 +347,7 @@ Finished the graphs to finally adjust them to the program. Finished tweaking the
 
 ---
 ### <ins> **Maintenance** <ins>
-**Maintenance Questions**\
+**Maintenance Questions**
 1. Explain how you would handle issues caused by changes to the PokeAPI over time.\
 If the PokeAPI changed over time, the code could be edited quite simply, for example if they update the image for the pokemon it would just be a simple change to 1 line. If they add new pokemon, the randint limit will need to be increased to suit it. 
 
