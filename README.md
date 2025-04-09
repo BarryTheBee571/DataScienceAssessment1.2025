@@ -11,7 +11,7 @@ To run this program, you need to install the following dependencies:
 
 - `pillow` for image visualisation
 - `pygame` for playing sounds
-- `requests` to make HTTP requests to the weather API.
+- `requests` to make HTTP requests to the  PokeAPI.
 
 ### Install dependencies
 To install the required dependencies, you can run:
